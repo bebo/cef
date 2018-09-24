@@ -9,7 +9,7 @@
 // implementations. See the translator.README.txt file in the tools directory
 // for more information.
 //
-// $hash=bd2800111c1f3f3a5c6107d0454a2b5fe67067b6$
+// $hash=2b9d204d8b992d9ec13a2228f4b4a947ef004bde$
 //
 
 #include "libcef_dll/ctocpp/render_handler_ctocpp.h"
@@ -202,6 +202,48 @@ void CefRenderHandlerCToCpp::OnPaint(CefRefPtr<CefBrowser> browser,
   // Execute
   _struct->on_paint(_struct, CefBrowserCppToC::Wrap(browser), type,
                     dirtyRectsCount, dirtyRectsList, buffer, width, height);
+
+  // Restore param:dirtyRects; type: simple_vec_byref_const
+  if (dirtyRectsList)
+    delete[] dirtyRectsList;
+}
+
+NO_SANITIZE("cfi-icall")
+void CefRenderHandlerCToCpp::OnAcceleratedPaint(CefRefPtr<CefBrowser> browser,
+                                                PaintElementType type,
+                                                const RectList& dirtyRects,
+                                                void* shared_handle) {
+  cef_render_handler_t* _struct = GetStruct();
+  if (CEF_MEMBER_MISSING(_struct, on_accelerated_paint))
+    return;
+
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  // Verify param: browser; type: refptr_diff
+  DCHECK(browser.get());
+  if (!browser.get())
+    return;
+  // Verify param: shared_handle; type: simple_byaddr
+  DCHECK(shared_handle);
+  if (!shared_handle)
+    return;
+
+  // Translate param: dirtyRects; type: simple_vec_byref_const
+  const size_t dirtyRectsCount = dirtyRects.size();
+  cef_rect_t* dirtyRectsList = NULL;
+  if (dirtyRectsCount > 0) {
+    dirtyRectsList = new cef_rect_t[dirtyRectsCount];
+    DCHECK(dirtyRectsList);
+    if (dirtyRectsList) {
+      for (size_t i = 0; i < dirtyRectsCount; ++i) {
+        dirtyRectsList[i] = dirtyRects[i];
+      }
+    }
+  }
+
+  // Execute
+  _struct->on_accelerated_paint(_struct, CefBrowserCppToC::Wrap(browser), type,
+                                dirtyRectsCount, dirtyRectsList, shared_handle);
 
   // Restore param:dirtyRects; type: simple_vec_byref_const
   if (dirtyRectsList)

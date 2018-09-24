@@ -9,7 +9,7 @@
 // implementations. See the translator.README.txt file in the tools directory
 // for more information.
 //
-// $hash=9e2bcb61512095fba2fca928f4696fbb39d9d3b1$
+// $hash=ea0b07fa112055448b0867858419b36f163bb8ad$
 //
 
 #ifndef CEF_LIBCEF_DLL_CTOCPP_RENDER_HANDLER_CTOCPP_H_
@@ -52,6 +52,10 @@ class CefRenderHandlerCToCpp
                const void* buffer,
                int width,
                int height) override;
+  void OnAcceleratedPaint(CefRefPtr<CefBrowser> browser,
+                          PaintElementType type,
+                          const RectList& dirtyRects,
+                          void* shared_handle) override;
   void OnCursorChange(CefRefPtr<CefBrowser> browser,
                       CefCursorHandle cursor,
                       CursorType type,
